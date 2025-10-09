@@ -2,10 +2,10 @@
 
 A modern and automated system with a web interface to query and request XML files from the SEFAZ (Secretaria da Fazenda) portal. This tool is designed to optimize the routine of accounting and tax professionals.
 
-<img width="1905" height="880" alt="image" src="https://github.com/user-attachments/assets/14796612-c84d-4a0e-8602-c10d219c43ce" />
+![Gravando 2025-10-09 001504](https://github.com/user-attachments/assets/1bab0e41-971c-4fd4-ad5c-66ebae4c22a0)
 
 
-[**Live Demo (Coming Soon)**](https://your-live-demo-link.com) <!-- TODO: Replace with your live demo link after deploying -->
+[**Live Demo**]([https://your-live-demo-link.com](https://sefaz-query-automator-d.streamlit.app/)) 
 
 ---
 
