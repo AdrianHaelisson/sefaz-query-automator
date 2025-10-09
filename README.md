@@ -2,7 +2,6 @@
 
 A modern and automated system with a web interface to query and request XML files from the SEFAZ (Secretaria da Fazenda) portal. This tool is designed to optimize the routine of accounting and tax professionals.
 
-**TODO:** Replace this with a screenshot or GIF of your project!
 <img width="1905" height="880" alt="image" src="https://github.com/user-attachments/assets/14796612-c84d-4a0e-8602-c10d219c43ce" />
 
 
