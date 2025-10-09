@@ -40,12 +40,156 @@ from src.config import (
 # CSS customizado
 st.markdown("""
 <style>
+    :root {
+        --primary-color: #60a5fa;
+        --primary-dark: #3b82f6;
+        --accent-color: #34d399;
+        --warning-color: #fb923c;
+        --warning-bg: #451a03;
+        --info-bg: #172554;
+        --info-border: #1e40af;
+        --instruction-bg: #064e3b;
+        --instruction-border: #059669;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --border-color: #475569;
+    }
+    
     .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #1f77b4;
+        font-size: 2.8rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         text-align: center;
         margin-bottom: 2rem;
+        padding: 1rem;
+    }
+    
+    .stButton > button {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: none;
+        background-color: var(--primary-color) !important;
+        color: var(--text-primary) !important;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+        background-color: var(--primary-dark) !important;
+    }
+    
+    .log-container {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        background: rgba(30, 41, 59, 0.5);
+        color: var(--text-primary);
+    }
+    
+    div[data-testid="stExpander"] {
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: rgba(30, 41, 59, 0.3);
+    }
+    
+    .custom-info-box {
+        background: var(--info-bg);
+        border: 1px solid var(--info-border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        color: var(--text-primary);
+    }
+    
+    .custom-info-box ul {
+        color: var(--text-secondary);
+    }
+    
+    .custom-warning-box {
+        background: var(--warning-bg);
+        border: 1px solid var(--warning-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        color: var(--warning-color);
+    }
+    
+    .instruction-box {
+        background: var(--instruction-bg);
+        border: 1px solid var(--instruction-border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        color: var(--text-primary);
+    }
+    
+    .instruction-box h3 {
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+    }
+    
+    .instruction-box ol {
+        color: var(--text-secondary);
+    }
+    
+    .controls-list {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .controls-list h4 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+    
+    .controls-list ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0.5rem 0;
+    }
+    
+    .controls-list li {
+        padding: 0.8rem 0;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-secondary);
+    }
+    
+    .controls-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .controls-list li strong {
+        color: var(--primary-color);
+    }
+    
+    /* Melhorar contraste de textos em geral */
+    p, li, .stMarkdown {
+        color: var(--text-primary);
+    }
+    
+    /* Destaque para códigos inline */
+    code {
+        background: rgba(30, 41, 59, 0.7);
+        color: var(--primary-color);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        border: 1px solid var(--border-color);
+    }
+
+    /* Ajustes para links e textos importantes */
+    a, .important-text {
+        color: var(--primary-color) !important;
+    }
+
+    /* Melhorar visibilidade de títulos */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-primary) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -222,22 +366,34 @@ def carregar_planilha(arquivo):
 # ============================================================================
 
 # Cabecalho
-st.markdown('<div class="main-header">Sistema de Consulta SEFAZ</div>', unsafe_allow_html=True)
-st.markdown("### Versao 8.0.2 - Interface Streamlit")
+st.markdown('<div class="main-header">🏢 Sistema de Consulta SEFAZ</div>', unsafe_allow_html=True)
+st.markdown("### 🚀 Interface Automática de Consultas")
+st.markdown("---")
 
 # Verifica configuracoes (apenas alerta, nao bloqueia mais)
 config_valida, mensagem_config = validar_configuracoes()
 if not config_valida:
-    st.warning(f"{SIMBOLOS['aviso']} {mensagem_config}")
-    st.info(f"{SIMBOLOS['info']} Voce pode configurar credenciais no .env ou diretamente na interface (barra lateral)")
+    st.markdown(f"""
+        <div class="custom-warning-box">
+            <h4 style="margin-top:0">⚠️ Atenção: Credenciais Necessárias</h4>
+            <p>{mensagem_config}</p>
+        </div>
+        <div class="custom-info-box">
+            <p>💡 Você pode configurar suas credenciais de duas formas:</p>
+            <ul>
+                <li>No arquivo <code>.env</code> (recomendado)</li>
+                <li>Diretamente na interface através da barra lateral</li>
+            </ul>
+        </div>
+    """, unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
-    st.header("Configuracoes")
+    st.header("⚙️ Configurações")
     
     # Configuracoes de Acesso
     with st.expander("🔐 Credenciais de Acesso", expanded=False):
-        st.caption("Opcional: Use apenas se quiser sobrescrever o .env")
+        st.caption("💡 Opcional: Use apenas se quiser sobrescrever o .env")
         
         usuario_temp = st.text_input(
             "Usuario SEFAZ",
@@ -357,14 +513,17 @@ with st.sidebar:
     st.divider()
     
     # Estatisticas
-    st.subheader("Estatisticas")
-    col1, col2 = st.columns(2)
+    st.subheader("📊 Estatísticas")
+    col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Sucesso", st.session_state.empresas_sucesso)
+        st.metric("✅ Sucesso", st.session_state.empresas_sucesso, 
+                 delta=f"{int(st.session_state.empresas_sucesso/max(1, st.session_state.empresas_processadas)*100)}%" if st.session_state.empresas_processadas > 0 else None)
     with col2:
-        st.metric("Erros", st.session_state.empresas_erro)
-    
-    st.metric("Processadas", st.session_state.empresas_processadas)
+        st.metric("❌ Erros", st.session_state.empresas_erro,
+                 delta=f"{int(st.session_state.empresas_erro/max(1, st.session_state.empresas_processadas)*100)}%" if st.session_state.empresas_processadas > 0 else None,
+                 delta_color="inverse")
+    with col3:
+        st.metric("🔄 Processadas", st.session_state.empresas_processadas)
 
 # Conteudo principal
 if arquivo is not None or st.session_state.planilha_salva:
@@ -381,9 +540,9 @@ if arquivo is not None or st.session_state.planilha_salva:
         total_empresas = len(df)
         
         # Preview
-        with st.expander("Preview da Planilha", expanded=False):
+        with st.expander("📋 Preview da Planilha", expanded=False):
             st.dataframe(df.head(20), use_container_width=True)
-            st.caption(f"Total: {total_empresas} empresas")
+            st.caption(f"📊 Total: {total_empresas} empresas para processar")
         
         # Controles
         st.divider()
@@ -443,15 +602,18 @@ if arquivo is not None or st.session_state.planilha_salva:
         
         # Log em tempo real
         st.divider()
-        st.subheader("Log em Tempo Real")
+        st.subheader("📝 Log em Tempo Real")
         
         log_container = st.container()
         with log_container:
             if st.session_state.log_messages:
+                st.markdown("##### 🔄 Últimas Atividades")
                 log_text = "\n".join(st.session_state.log_messages[-50:])
+                st.markdown('<div class="log-container">', unsafe_allow_html=True)
                 st.text_area("Log Output", value=log_text, height=300, label_visibility="collapsed", key=f"log_{len(st.session_state.log_messages)}")
+                st.markdown('</div>', unsafe_allow_html=True)
             else:
-                st.info("Aguardando...")
+                st.info("⏳ Aguardando início do processamento...")
         
         # PROCESSAMENTO INCREMENTAL
         if st.session_state.processando and not st.session_state.parar:
@@ -563,7 +725,7 @@ if arquivo is not None or st.session_state.planilha_salva:
                                 salvar_checkpoint()
                                 st.session_state.processando = False
                                 st.session_state.fase = 'concluido'
-                                st.error(f"{SIMBOLOS['erro']} Navegador fechou! Checkpoint salvo. Use 'Retomar Checkpoint'"")
+                                st.error(f"{SIMBOLOS['erro']} Navegador fechou! Checkpoint salvo. Use 'Retomar Checkpoint'")
                                 st.rerun()
                             
                             if tipo in ["NFE", "NFC"]:
@@ -605,7 +767,7 @@ if arquivo is not None or st.session_state.planilha_salva:
                                 salvar_checkpoint()
                                 st.session_state.processando = False
                                 st.session_state.fase = 'concluido'
-                                st.error(f"{SIMBOLOS['erro']} Navegador desconectou! Use 'Retomar Checkpoint'"")
+                                st.error(f"{SIMBOLOS['erro']} Navegador desconectou! Use 'Retomar Checkpoint'")
                                 
                                 # Tenta fechar navegador
                                 try:
@@ -675,19 +837,27 @@ if arquivo is not None or st.session_state.planilha_salva:
             )
 
 else:
-    st.info(f"""
-    ### Como usar:
+    st.markdown("""
+    <div class="instruction-box">
+        <h3 style="margin-top:0">📋 Guia de Utilização</h3>
+        <p>Siga os passos abaixo para começar:</p>
+        <ol style="margin-bottom:1.5rem">
+            <li>Configure suas credenciais no arquivo <code>.env</code></li>
+            <li>Faça upload da planilha de dados pela barra lateral</li>
+            <li>Inicie o processamento</li>
+            <li>Monitore o progresso em tempo real</li>
+        </ol>
+    </div>
     
-    1. Configure `.env` com suas credenciais
-    2. Faca upload da planilha na barra lateral
-    3. Clique em "Iniciar"
-    4. Acompanhe em tempo real
-    
-    Controles:
-    - ▶️ Iniciar - Comeca o processamento
-    - ⏹️ Parar - Interrompe e salva checkpoint
-    - 💾 Download - Baixa log completo
-    """)
+    <div class="controls-list">
+        <h4 style="margin-top:0">🎮 Controles Disponíveis</h4>
+        <ul>
+            <li><strong>▶️ Iniciar</strong> - Inicia o processamento automatizado</li>
+            <li><strong>⏹️ Parar</strong> - Interrompe o processo e salva o progresso atual</li>
+            <li><strong>💾 Download</strong> - Exporta o registro completo de atividades</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
     
     with st.expander("Exemplo"):
         exemplo = pd.DataFrame({
@@ -701,4 +871,4 @@ else:
 
 # Rodape
 st.divider()
-st.caption("Sistema de Consulta SEFAZ v8.0.2 | Streamlit | MIT License")
+st.caption("🏢 Sistema de Consulta SEFAZ v8.0.2 | 🚀 Powered by Streamlit | 📜 MIT License")

@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import datetime
 
 
-def def formatar_data(data):
+def formatar_data(data):
     """
     Formata uma data para o padrão DD/MM/YYYY
     
