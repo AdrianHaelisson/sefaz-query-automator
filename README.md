@@ -5,7 +5,7 @@ A modern and automated system with a web interface to query and request XML file
 ![Gravando 2025-10-09 001504](https://github.com/user-attachments/assets/1bab0e41-971c-4fd4-ad5c-66ebae4c22a0)
 
 
-[**Live Demo**](https://sefaz-query-automator-d.streamlit.app/) 
+[**Streamlit App - Check it out**](https://sefaz-query-automator-d.streamlit.app/) 
 
 ---
 
