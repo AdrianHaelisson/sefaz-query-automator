@@ -1,97 +1,79 @@
 # SEFAZ Query Automator
 
-A modern and automated system with a web interface to query and request XML files from the SEFAZ (Secretaria da Fazenda) portal. This tool is designed to optimize the routine of accounting and tax professionals.
+Automatize a preparação e o acompanhamento de solicitações de XMLs no portal SEFAZ. Uma interface Streamlit orienta o envio da planilha e apresenta o andamento do processamento em Python.
 
-![Gravando 2025-10-09 001504](https://github.com/user-attachments/assets/1bab0e41-971c-4fd4-ad5c-66ebae4c22a0)
+[Código do projeto](https://github.com/AdrianHaelisson/sefaz-query-automator) · [Explorar simulação AH XML Fiscal](https://ah-automacoes-demo.vercel.app/xml-fiscal) · [Portfólio](https://haelisson.com.br)
 
+## O fluxo
 
-[**Streamlit App - Check it out**](https://sefaz-query-automator-d.streamlit.app/) 
+1. Configure o ambiente e o acesso ao portal suportado pelo projeto.
+2. Forneça a planilha usada para organizar as solicitações.
+3. Acompanhe as etapas e os registros do processamento na interface.
+4. Retome o trabalho a partir do progresso salvo, quando aplicável.
 
----
+O objetivo é diminuir a repetição de navegação e preenchimento, mantendo o andamento visível.
 
-## 🚀 Case Study: Automating Tax Document Retrieval
+## Recursos
 
-### The Challenge
+- Interface web em Streamlit.
+- Solicitações organizadas a partir de planilha.
+- Automação de navegador com Selenium.
+- Registros de execução e persistência de progresso.
+- Configuração de credenciais por variáveis de ambiente.
+- Opção de navegador em modo headless.
 
-Accountants and tax professionals often need to download a large volume of XML files (NFe, NFCe, CTe) from government portals like SEFAZ. This manual process is extremely time-consuming, repetitive, and prone to human error, consuming hours of work that could be better spent on analysis and consulting.
+O comportamento depende do portal implementado e das permissões de acesso. O nome do projeto não implica suporte a todas as SEFAZ estaduais, a todos os documentos fiscais ou a mudanças futuras dos portais.
 
-### The Solution
+## Stack
 
-The SEFAZ Query Automator was developed to solve this problem. It's a Python-based application with a user-friendly web interface built with Streamlit. The application automates the entire process of logging into the SEFAZ portal, filling out the query forms, and requesting the XML files in bulk based on a simple spreadsheet input.
+Python, Streamlit, Selenium, Pandas, OpenPyXL, `webdriver-manager` e `python-decouple`.
 
-The system is built with resilience and user experience in mind, featuring:
+## Executar localmente
 
-*   **Session and Checkpoint System:** The application saves the progress of a batch process. If the browser crashes or the connection is lost, the user can resume from where they left off.
-*   **Real-time Logs:** A detailed log provides full visibility into the automation process, showing the status of each request.
-*   **Secure Credential Management:** Uses a `.env` file to store sensitive credentials, keeping them out of the source code.
+Pré-requisitos: Python, navegador e dependências compatíveis com `requirements.txt`.
 
-### The Impact
+```bash
+git clone https://github.com/AdrianHaelisson/sefaz-query-automator.git
+cd sefaz-query-automator
+python -m venv venv
+```
 
-*   **Drastic Time Reduction:** Automated a process that took hours, reducing it to minutes.
-*   **Increased Accuracy:** Eliminated errors associated with manual data entry.
-*   **Improved Workflow:** Freed up professionals to focus on higher-value tasks.
+Ative o ambiente virtual:
 
----
+```bash
+# Linux/macOS
+source venv/bin/activate
+```
 
-## ✨ Key Features
+```powershell
+# Windows PowerShell
+.\venv\Scripts\Activate.ps1
+```
 
-*   **Web Interface:** A clean and modern UI built with Streamlit.
-*   **Bulk Processing:** Process hundreds of requests from a single Excel spreadsheet.
-*   **Resilient Automation:** Handles login, navigation, and form submission automatically.
-*   **Session Persistence:** Saves uploaded spreadsheets and progress.
-*   **Headless Mode:** Option to run the browser in the background for better performance.
+Instale as dependências:
 
----
+```bash
+pip install -r requirements.txt
+```
 
-## 🛠️ Technologies Used
+Copie `env.example` para `.env` e preencha `SEFAZ_USUARIO` e `SEFAZ_SENHA` com o acesso autorizado ao ambiente pretendido. Não versione o arquivo preenchido.
 
-*   **Backend:** Python
-*   **Web Framework:** Streamlit
-*   **Browser Automation:** Selenium
-*   **Libraries:** Pandas, OpenPyXL, python-decouple
+Inicie a aplicação:
 
----
+```bash
+python run.py
+```
 
-## 📦 How to Run Locally
+Abra `http://localhost:8501`.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/AdrianHaelisson/sefaz-query-automator.git
-    cd sefaz-query-automator
-    ```
+## Hospedagem
 
-2.  **Create a virtual environment and install dependencies:**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    pip install -r requirements.txt
-    ```
+Para hospedar no Streamlit Community Cloud, confira as dependências de navegador, as permissões do portal e a exposição da interface. Configure `SEFAZ_USUARIO` e `SEFAZ_SENHA` no mecanismo de secrets do ambiente, sem colocá-los em código ou no README. Consulte a [documentação oficial de publicação do Streamlit](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app).
 
-3.  **Configure your credentials:**
-    *   Copy the `env.example` file to a new file named `.env`.
-    *   Open the `.env` file and fill in your `SEFAZ_USUARIO` and `SEFAZ_SENHA`.
+## Demonstração comercial
 
-4.  **Run the application:**
-    ```bash
-    python run.py
-    ```
+O [AH XML Fiscal](https://ah-automacoes-demo.vercel.app/xml-fiscal) apresenta um fluxo ilustrativo de solicitação, espera, download, extração, validação e encaminhamento. Usa dados fictícios e não executa este código nem acessa portais reais.
 
-5.  Open your browser and navigate to `http://localhost:8501`.
+## Licença
 
----
-
-## 🚀 How to Deploy
-
-This application can be deployed for free on [Streamlit Community Cloud](https://streamlit.io/cloud).
-
-1.  **Push your code to a public GitHub repository.**
-2.  Sign up for Streamlit Cloud and connect your GitHub account.
-3.  Click "New app" and select the repository.
-4.  In the "Advanced settings", you will need to add your `SEFAZ_USUARIO` and `SEFAZ_SENHA` as secrets.
-5.  Click "Deploy!"
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+MIT.
